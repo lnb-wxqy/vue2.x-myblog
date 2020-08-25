@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Register from '../views/Register'
 import Login from '../views/Login'
-import Lunbo from '../views/Lunbo'
+import Lunbo from '../views/lunbo/Lunbo'
+
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,7 @@ const routes = [
     path: '/lunbo',
     name: 'Lunbo',
     component: Lunbo
-    // component: () => import('../views/Lunbo.vue')
+    // component: () => import('../views/lunbo/Lunbo.vue')
   }
 
 ]

@@ -1,33 +1,63 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand
-        >五行缺雨 <b-icon icon="alarm-fill"></b-icon>
-        <!-- <b-row class="text-md-center">
-          <b-col md="6"
-                 class="mb-3">
-            五行缺雨<b-icon icon="arrow-counterclockwise"
-                    animation="spin-reverse"
-                    font-scale="1"></b-icon>
-          </b-col>
-        </b-row> -->
-      </b-navbar-brand>
+      <!-- <b-container> -->
+      <b-navbar-brand @click="$router.push({ name: 'home' })"
+        >五行缺雨<b-icon icon="alarm-fill"></b-icon
+      ></b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
-        <!-- Right aligned nav items -->
+        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-navbar-nav>
-            <!-- // 导航到路由名为login的页面和register的页面 -->
-            <!-- 此处name为 router 目录下 index.js中路由的名字name -->
-            <b-nav-item @click="$router.replace({ name: 'Login' })"
-              >登录</b-nav-item
-            >
-            <b-nav-item @click="$router.replace({ name: 'Register' })"
-              >注册</b-nav-item
-            >
-          </b-navbar-nav>
+          <b-nav-item-dropdown right v-if="userInfo">
+            <template v-slot:button-content>
+              <em>{{ userInfo.name }}</em>
+            </template>
+            <!-- <b-dropdown-item @click="$router.push({ name: 'profile' })"
+              >个人主页</b-dropdown-item
+            > -->
+            <b-dropdown-item>个人主页</b-dropdown-item>
+            <b-dropdown-item @click="logout">登出</b-dropdown-item>
+          </b-nav-item-dropdown>
+
+          <div v-if="!userInfo">
+            <b-navbar-nav>
+              <!-- // 导航到路由名为login的页面和register的页面 -->
+              <!-- 此处name为 router 目录下 index.js中路由的名字name -->
+              <b-nav-item
+                v-if="$route.name != 'login'"
+                @click="$router.replace({ name: 'login' })"
+                >登录</b-nav-item
+              >
+              <b-nav-item
+                v-if="$route.name != 'register'"
+                @click="$router.replace({ name: 'register' })"
+                >注册</b-nav-item
+              >
+            </b-navbar-nav>
+          </div>
         </b-navbar-nav>
       </b-collapse>
+      <!-- </b-container> -->
     </b-navbar>
   </div>
 </template>
+
+<script>
+import storageService from '@/service/storageService'
+
+export default {
+  data() {
+    return {}
+  },
+  //定义一个计算属性
+  computed: {
+    userInfo() {
+      return JSON.parse(storageService.get(storageService.USER_INFO))
+    }
+  },
+  methods: {
+    logout() {}
+  }
+}
+</script>

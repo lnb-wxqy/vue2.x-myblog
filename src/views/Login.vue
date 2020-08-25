@@ -1,49 +1,76 @@
 <template>
-  <div>
-    <div class="p-4">
-      <b-icon icon="clock"
-              animation="spin"
-              font-scale="4"
-              shift-v="4"></b-icon>
-      <b-button size="sm"
-                class="mb-2">
-        <b-icon icon="gear-fill"
-                aria-hidden="true"></b-icon> Settings
-      </b-button>
-      <br>
-      <b-button variant="primary"
-                class="mb-2">
-        Pay now <b-icon icon="credit-card"
-                aria-hidden="true"></b-icon>
-      </b-button>
-      <br>
-      <b-button variant="outline-info"
-                class="mb-2">
-        <b-icon icon="power"
-                aria-hidden="true"></b-icon> Logout
-      </b-button>
-      <br>
-      <b-button size="lg"
-                variant="primary"
-                class="mb-2">
-        <b-icon icon="question-circle-fill"
-                aria-label="Help"></b-icon>
-      </b-button>
+  <div class="login">
+    <b-row class="mt-5">
+      <b-col md="8"
+             offset-md="2"
+             lg="6"
+             offset-lg="3">
+        <b-card title="登录">
+          <b-form>
+            <!-- 姓名 -->
+            <b-form-group label="姓名">
+              <b-form-input v-model="user.name"
+                            type="text"
+                            placeholder="请输入用户名">
+              </b-form-input>
+            </b-form-group>
 
-    </div>
+            <!-- //手机号 -->
+            <b-form-group label="手机号">
+              <b-form-input v-model="user.telephone"
+                            type="text"
+                            placeholder="请输入11位手机号"
+                            :state="validateState('telephone')">
+              </b-form-input>
+              <b-form-invalid-feedback :state="validateState('telephone')">
+                手机号必须为11位
+              </b-form-invalid-feedback>
+            </b-form-group>
+
+            <!-- 密码 -->
+            <b-form-group label="密码">
+              <b-form-input v-model="user.password"
+                            type="password"
+                            placeholder="请输入密码(不能少于6位)"
+                            :state="validateState('password')"></b-form-input>
+              <b-form-invalid-feedback :state="validateState('password')">
+                密码必须大于等于 6 位
+              </b-form-invalid-feedback>
+            </b-form-group>
+
+            <b-form-group>
+              <b-button @click="login"
+                        variant="outline-primary"
+                        block>登录</b-button>
+            </b-form-group>
+          </b-form>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
+
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-
-        }
-    },
-    methods: {
+  data () {
+    return {
+      user: {
+        name: '',
+        telephone: '',
+        password: ''
+      },
+      showTelephoneValidater: false
     }
+  },
+  methods: {
+    validateState (telephone) { },
+    login () {
+      console.log('login')
+    }
+
+  }
 }
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="scss" scoped></style>

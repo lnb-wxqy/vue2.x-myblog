@@ -4,7 +4,7 @@
               type="dark"
               variant="info">
       <!-- <b-container> -->
-      <b-navbar-brand @click="$router.push({ name: 'home' })">五行缺雨<b-icon icon="alarm-fill"></b-icon>
+      <b-navbar-brand @click="$router.push({ name: 'home' })">五行缺雨 <b-icon icon="alarm-fill"></b-icon>
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse"
@@ -43,20 +43,26 @@
 <script>
 // import storageService from '@/service/storageService' #0826
 
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {}
   },
   //定义一个计算属性
-  computed: {
-    userInfo () {
+  computed: mapState({
+    // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
+    userInfo: (state) => JSON.parse(state.userModule.userInfo)
+  }),
+  // computed: {
+  //   userInfo () {
 
-      // console.log(this.$store.state.userModule.userInfo)
-      // 此处必须反序列化，否则HTML中的{{ userInfo.name }}没有值
-      return JSON.parse(this.$store.state.userModule.userInfo)
+  //     // console.log(this.$store.state.userModule.userInfo)
+  //     // 此处需要反序列化，否则HTML中的{{ userInfo.name }}没有值
+  //     return JSON.parse(this.$store.state.userModule.userInfo)
 
-    }
-  },
+  //   }
+  // },
   methods: {
     logout () { }
   }

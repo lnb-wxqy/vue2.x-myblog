@@ -58,6 +58,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 import customerValidator from '@/helper/validator'
 // import storageService from '@/service/storageService' 0826
 import userService from '@/service/userService'
+import { mapMutations } from 'vuex'
 
 
 export default {
@@ -87,7 +88,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('userModule', ['SET_TOKEN', 'SET_USERINFO']),
     validateState (userProperty) {
+      // 这里是es6 结构赋值
       const { $dirty, $error } = this.$v.user[userProperty]
       return $dirty ? !$error : null
     },
@@ -104,7 +107,8 @@ export default {
         .register(this.user)
         .then(res => {
           // 成功，保存token
-          this.$store.commit('userModule/SET_TOKEN', res.data.token)
+          this.SET_TOKEN(res.data.token)
+          // this.$store.commit('userModule/SET_TOKEN', res.data.token)
           // vuex 链式调用
           return userService.info()
           // storageService.set(storageService.USER_TOKEN, res.data.token)  #0826
@@ -120,9 +124,12 @@ export default {
           //   this.$router.replace({ name: 'home' }) #0826
           // })
         }).then(response => {
-          // 保存用户信息，序列化
+
           // this.$store.commit('userModule/SET_USERINFO', JSON.stringify(response.data.user))
-          this.$store.commit('userModule/SET_USERINFO', response.data.user)
+          // this.$store.commit('userModule/SET_USERINFO', response.data.user)
+
+          // 保存用户信息，序列化
+          this.SET_USERINFO(JSON.stringify(response.data.user))
 
           // 跳转到主页面
           this.$router.replace({ name: 'home' })

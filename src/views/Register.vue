@@ -21,6 +21,7 @@
             <!-- //手机号 -->
             <b-form-group label="手机号">
               <b-form-input v-model="$v.user.telephone.$model"
+                            maxlength="11"
                             type="text"
                             placeholder="请输入11位手机号"
                             :state="validateState('telephone')">

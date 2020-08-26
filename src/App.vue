@@ -1,7 +1,6 @@
 <template>
   <div id="app"
        class="background">
-    <!-- :style="backgroundDiv" -->
     <Navbar />
     <b-container>
       <router-view />
@@ -17,7 +16,7 @@ export default {
   data () {
     return {
       backgroundDiv: {
-        backgroundImage: 'url(' + require('./assets/image/cjq.jpeg') + ')',
+        backgroundImage: 'url(' + require('./assets/logo.png') + ')',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%'
       }

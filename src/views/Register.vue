@@ -56,9 +56,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
 import customerValidator from '@/helper/validator'
-// import storageService from '@/service/storageService' 0826
-import userService from '@/service/userService'
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 
 export default {
@@ -88,7 +86,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('userModule', ['SET_TOKEN', 'SET_USERINFO']),
+    // ...mapMutations('userModule', ['SET_TOKEN', 'SET_USERINFO']),
+    ...mapActions('userModule', { userRegister: 'register' }),
     validateState (userProperty) {
       // 这里是es6 结构赋值
       const { $dirty, $error } = this.$v.user[userProperty]
@@ -103,44 +102,17 @@ export default {
         return
       }
       //axios 请求
-      userService
-        .register(this.user)
-        .then(res => {
-          // 成功，保存token
-          this.SET_TOKEN(res.data.token)
-          // this.$store.commit('userModule/SET_TOKEN', res.data.token)
-          // vuex 链式调用
-          return userService.info()
-          // storageService.set(storageService.USER_TOKEN, res.data.token)  #0826
-          //注册成功后 调用获取用户信息接口
-          // userService.info().then(resp => {  #0826
-          //   // 日志转换成json打印，否则打印不出来  #0826
-          //   // console.log(JSON.stringify(resp)) #0826
-          //   //保存用户信息，序列化
-          //   this.$store.commit('userModule/SET_USERINFO', res.data.user) #0826
-
-          //   // storageService.set(storageService.USER_INFO,JSON.stringify(resp.data.user)) #0826
-          //   //跳转到主页面
-          //   this.$router.replace({ name: 'home' }) #0826
-          // })
-        }).then(response => {
-
-          // this.$store.commit('userModule/SET_USERINFO', JSON.stringify(response.data.user))
-          // this.$store.commit('userModule/SET_USERINFO', response.data.user)
-
-          // 保存用户信息，序列化
-          this.SET_USERINFO(JSON.stringify(response.data.user))
-
-          // 跳转到主页面
-          this.$router.replace({ name: 'home' })
+      // this.$store.dispatch('userModule/register', this.user).then(() => {
+      this.userRegister(this.user).then(() => {
+        // 跳转到主页面
+        this.$router.replace({ name: 'home' })
+      }).catch(err => {
+        this.$bvToast.toast('数据验证错误', {
+          title: err.response.data.msg,
+          variant: 'danger',
+          solid: true
         })
-        .catch(err => {
-          this.$bvToast.toast('数据验证错误', {
-            title: err.response.data.msg,
-            variant: 'danger',
-            solid: true
-          })
-        })
+      })
     }
   }
 }

@@ -54,15 +54,6 @@ export default {
     // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
     userInfo: (state) => JSON.parse(state.userModule.userInfo)
   }),
-  // computed: {
-  //   userInfo () {
-
-  //     // console.log(this.$store.state.userModule.userInfo)
-  //     // 此处需要反序列化，否则HTML中的{{ userInfo.name }}没有值
-  //     return JSON.parse(this.$store.state.userModule.userInfo)
-
-  //   }
-  // },
   methods: {
     logout () { }
   }

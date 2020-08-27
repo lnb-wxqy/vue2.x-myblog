@@ -11,22 +11,22 @@ const userModule = {
   },
 
   mutations: {
-    SET_TOKEN(state, token) {
+    SET_TOKEN (state, token) {
       // 更新本地缓存
       storageService.set(storageService.USER_TOKEN, token)
       // 更新state
       state.token = token
     },
-    SET_USERINFO(state, userInfo) {
+    SET_USERINFO (state, userInfo) {
       // 更新本地缓存
-      storageService.set(storageService.USER_INFO, userInfo)
+      storageService.set(storageService.USER_INFO, JSON.stringify(userInfo))
       // 更新state
       state.userInfo = userInfo
     }
   },
 
   actions: {
-    register(context, { name, telephone, password }) {
+    register (context, { name, telephone, password }) {
       return new Promise((resolve, reject) => {
         userService
           .register({ name, telephone, password })
@@ -46,7 +46,7 @@ const userModule = {
           })
       })
     },
-    login(context, { name, password }) {
+    login (context, { name, password }) {
       return new Promise((resolve, reject) => {
         userService
           .login({ name, password })
@@ -66,7 +66,7 @@ const userModule = {
           })
       })
     },
-    logout({ commit }) {
+    logout ({ commit }) {
       //清除token
       commit('SET_TOKEN', '')
       storageService.set(storageService.USER_TOKEN, '')

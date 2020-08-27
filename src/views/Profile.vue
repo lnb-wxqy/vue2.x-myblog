@@ -67,72 +67,39 @@ export default {
     },
     /* 自动播放音乐 */
     audioAutoPlay (id) {
-      let music = document.getElementById(id)
-      music.play()
-      let play = function () {
-        music.play()
-        document.removeEventListener("touchstart", play, false)
-      }
-      music.play()
-      document.addEventListener("WeixinJSBridgeReady", function () {
-        play()
-      }, false)
-      document.addEventListener('YixinJSBridgeReady', function () {
-        play()
-      }, false)
-      document.addEventListener("touchstart", play, false)
+
     },
-    onBridgeReady () {
-      console.log(" WeixinJSBridge.call('hideOptionMenu')")
-      WeixinJSBridge.call('hideOptionMenu')
-    },
-    WeixinJSBridgeReady () {
-      if (typeof WeixinJSBridge === "undefined") {
-        console.log('WeixinJSBridge ==== undefined')
-        if (document.addEventListener) {
-          document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false)
-        } else if (document.attachEvent) {
-          document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady)
-          document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady)
+    computed: mapState({
+      // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
+      userInfo: state => state.userModule.userInfo,
+      //上一张
+      prevIndex () {
+        if (this.currentIndex == 0) {
+          return this.dataList.length - 1
+        } else {
+          return this.currentIndex - 1
         }
-      } else {
-        this.onBridgeReady()
+      },
+      //下一张
+      nextIndex () {
+        if (this.currentIndex == this.dataList.length - 1) {
+          return 0
+        } else {
+          return this.currentIndex + 1
+        }
       }
-    }
+    }),
+    mounted () {
+      //定时器
+      this.timer = setInterval(() => {
+        this.gotoPage(this.nextIndex)
+      }, 1000)
 
-  },
-  computed: mapState({
-    // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
-    userInfo: state => state.userModule.userInfo,
-    //上一张
-    prevIndex () {
-      if (this.currentIndex == 0) {
-        return this.dataList.length - 1
-      } else {
-        return this.currentIndex - 1
-      }
-    },
-    //下一张
-    nextIndex () {
-      if (this.currentIndex == this.dataList.length - 1) {
-        return 0
-      } else {
-        return this.currentIndex + 1
-      }
     }
-  }),
-  mounted () {
-    //定时器
-    this.timer = setInterval(() => {
-      this.gotoPage(this.nextIndex)
-    }, 1000),
-      // 自动播放歌曲
-      audioAutoPlay("xiaoyequ")
-  },
-
+  }
 }
-</script>
 
+</script>
 <style lang="scss" scoped>
 * {
   margin: 0;

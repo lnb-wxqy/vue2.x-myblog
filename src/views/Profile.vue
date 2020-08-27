@@ -1,37 +1,38 @@
 <template>
   <div>
     <div>
-      <p></p><span v-if="userInfo">你好！{{ userInfo.name }}</span>
+      <p></p>
+      <span v-if="userInfo">你好！{{ userInfo.name }}</span>
     </div>
     <div>
       <!-- 插入音乐 -->
-      <audio id="xiaoyequ"
-             src="sounds"
-             ref="music"
-             preload="atuo"
-             loop="loop"></audio>
-
+      <span>月半小夜曲</span>
+      <audio
+        autoplay
+        controls
+        loop
+        src="../assets/music/李克勤 - 月半小夜曲.mp3"
+      ></audio>
     </div>
     <div class="banner">
       <div class="item">
-        <img :src="dataList[currentIndex]"
-             alt="logo" />
+        <img :src="dataList[currentIndex]" alt="logo" />
       </div>
-      <div class="page"
-           v-if="this.dataList.length > 1">
+      <div class="page" v-if="this.dataList.length > 1">
         <ul>
           <li @click="gotoPage(prevIndex)">&lt;</li>
-          <li v-for="(item, index) in dataList"
-              :key="index"
-              @click="gotoPage(index)"
-              :class="{ current: currentIndex == index }">
+          <li
+            v-for="(item, index) in dataList"
+            :key="index"
+            @click="gotoPage(index)"
+            :class="{ current: currentIndex == index }"
+          >
             {{ index + 1 }}
           </li>
           <li @click="gotoPage(nextIndex)">&gt;</li>
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -39,7 +40,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       dataList: [
         require('@/assets/images/xm1.jpg'),
@@ -51,54 +52,53 @@ export default {
       currentIndex: 0, //默认显示图片
       timer: null, //定时器
       // imgsrc: require('@/assets/image/dog1.jpg'),
-      sound: require('@/assets/logo.png'),
-      sounds: require('@/assets/music/李克勤 - 月半小夜曲.mp3'),
-
-
+      sound: require('@/assets/music/李克勤 - 月半小夜曲.mp3')
     }
   },
   methods: {
-    gotoPage (index) {
+    gotoPage(index) {
       this.currentIndex = index
     },
-    getImage () {
+    getImage() {
       console.log('getImage: ' + this.dataList[this.currentIndex])
       return this.dataList[this.currentIndex]
     },
     /* 自动播放音乐 */
-    audioAutoPlay (id) {
-
+    musicPause() {
+      // TODO
     },
-    computed: mapState({
-      // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
-      userInfo: state => state.userModule.userInfo,
-      //上一张
-      prevIndex () {
-        if (this.currentIndex == 0) {
-          return this.dataList.length - 1
-        } else {
-          return this.currentIndex - 1
-        }
-      },
-      //下一张
-      nextIndex () {
-        if (this.currentIndex == this.dataList.length - 1) {
-          return 0
-        } else {
-          return this.currentIndex + 1
-        }
-      }
-    }),
-    mounted () {
-      //定时器
-      this.timer = setInterval(() => {
-        this.gotoPage(this.nextIndex)
-      }, 1000)
-
+    musicPlay() {
+      // TODO
     }
+  },
+
+  computed: mapState({
+    // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
+    userInfo: state => state.userModule.userInfo,
+    //上一张
+    prevIndex() {
+      if (this.currentIndex == 0) {
+        return this.dataList.length - 1
+      } else {
+        return this.currentIndex - 1
+      }
+    },
+    //下一张
+    nextIndex() {
+      if (this.currentIndex == this.dataList.length - 1) {
+        return 0
+      } else {
+        return this.currentIndex + 1
+      }
+    }
+  }),
+  mounted() {
+    //定时器
+    this.timer = setInterval(() => {
+      this.gotoPage(this.nextIndex)
+    }, 1000)
   }
 }
-
 </script>
 <style lang="scss" scoped>
 * {

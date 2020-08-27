@@ -1,19 +1,26 @@
 <template>
   <div>
+    <!-- 背景音乐 -->
+    <audio
+      autoplay
+      loop
+      controls
+      src="../assets/music/李克勤 - 月半小夜曲.mp3"
+    ></audio>
     <p><b>你要去做一个大人，不要回头，不要难过。</b></p>
     <div class="banner">
       <div class="item">
-        <img :src="dataList[currentIndex]"
-             alt="logo" />
+        <img :src="dataList[currentIndex]" alt="logo" />
       </div>
-      <div class="page"
-           v-if="this.dataList.length > 1">
+      <div class="page" v-if="this.dataList.length > 1">
         <ul>
           <li @click="gotoPage(prevIndex)">&lt;</li>
-          <li v-for="(item, index) in dataList"
-              :key="index"
-              @click="gotoPage(index)"
-              :class="{ current: currentIndex == index }">
+          <li
+            v-for="(item, index) in dataList"
+            :key="index"
+            @click="gotoPage(index)"
+            :class="{ current: currentIndex == index }"
+          >
             {{ index + 1 }}
           </li>
           <li @click="gotoPage(nextIndex)">&gt;</li>
@@ -30,7 +37,7 @@
 // import img3 from '@/assets/image/dog1.jpg'
 
 export default {
-  data () {
+  data() {
     return {
       dataList: [
         require('@/assets/images/xm1.jpg'),
@@ -45,17 +52,17 @@ export default {
     }
   },
   methods: {
-    gotoPage (index) {
+    gotoPage(index) {
       this.currentIndex = index
     },
-    getImage () {
+    getImage() {
       console.log('getImage: ' + this.dataList[this.currentIndex])
       return this.dataList[this.currentIndex]
     }
   },
   computed: {
     //上一张
-    prevIndex () {
+    prevIndex() {
       if (this.currentIndex == 0) {
         return this.dataList.length - 1
       } else {
@@ -63,7 +70,7 @@ export default {
       }
     },
     //下一张
-    nextIndex () {
+    nextIndex() {
       if (this.currentIndex == this.dataList.length - 1) {
         return 0
       } else {
@@ -71,7 +78,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     //定时器
     this.timer = setInterval(() => {
       this.gotoPage(this.nextIndex)

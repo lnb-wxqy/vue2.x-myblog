@@ -3,6 +3,15 @@
     <div>
       <p></p><span v-if="userInfo">你好！{{ userInfo.name }}</span>
     </div>
+    <div>
+      <!-- 插入音乐 -->
+      <audio id="xiaoyequ"
+             src="sounds"
+             ref="music"
+             preload="atuo"
+             loop="loop"></audio>
+
+    </div>
     <div class="banner">
       <div class="item">
         <img :src="dataList[currentIndex]"
@@ -40,8 +49,12 @@ export default {
       // dataList: ["../assets/image/11.jpg", "../assets/image/cjq.jpeg", "../assets/image/dog1.jpg"],//不可行
       // dataList: ["https://i1.mifile.cn/a4/xmad_15535933141925_ulkYv.jpg", "https://i1.mifile.cn/a4/xmad_15532384207972_iJXSx.jpg", "https://i1.mifile.cn/a4/xmad_15517939170939_oiXCK.jpg"],
       currentIndex: 0, //默认显示图片
-      timer: null //定时器
+      timer: null, //定时器
       // imgsrc: require('@/assets/image/dog1.jpg'),
+      sound: require('@/assets/logo.png'),
+      sounds: require('@/assets/music/李克勤 - 月半小夜曲.mp3'),
+
+
     }
   },
   methods: {
@@ -51,7 +64,42 @@ export default {
     getImage () {
       console.log('getImage: ' + this.dataList[this.currentIndex])
       return this.dataList[this.currentIndex]
+    },
+    /* 自动播放音乐 */
+    audioAutoPlay (id) {
+      let music = document.getElementById(id)
+      music.play()
+      let play = function () {
+        music.play()
+        document.removeEventListener("touchstart", play, false)
+      }
+      music.play()
+      document.addEventListener("WeixinJSBridgeReady", function () {
+        play()
+      }, false)
+      document.addEventListener('YixinJSBridgeReady', function () {
+        play()
+      }, false)
+      document.addEventListener("touchstart", play, false)
+    },
+    onBridgeReady () {
+      console.log(" WeixinJSBridge.call('hideOptionMenu')")
+      WeixinJSBridge.call('hideOptionMenu')
+    },
+    WeixinJSBridgeReady () {
+      if (typeof WeixinJSBridge === "undefined") {
+        console.log('WeixinJSBridge ==== undefined')
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady)
+          document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady)
+        }
+      } else {
+        this.onBridgeReady()
+      }
     }
+
   },
   computed: mapState({
     // Register.vue中存储userInfo时进行了序列化，所以这儿需要反序列化
@@ -77,7 +125,9 @@ export default {
     //定时器
     this.timer = setInterval(() => {
       this.gotoPage(this.nextIndex)
-    }, 1000)
+    }, 1000),
+      // 自动播放歌曲
+      audioAutoPlay("xiaoyequ")
   },
 
 }

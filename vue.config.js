@@ -22,6 +22,9 @@ module.exports = {
         // target: "http://192.168.0.201:8089", //
         /* 允许跨域 */
         changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/api'
+        }
       }
     }
   },

@@ -3,6 +3,7 @@ import storageService from '../service/storageService'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASEURL,
+  // baseURL: 'http://39.106.0.106:8082/api',
   timeout: 1000 * 5,
   headers: {
     Authorization: `Berear ${storageService.get(storageService.USER_TOKEN)}`

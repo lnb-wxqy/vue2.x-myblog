@@ -6,24 +6,12 @@
            controls
            src="../assets/music/李克勤 - 月半小夜曲.mp3"></audio>
     <p><b>你要去做一个大人，不要回头，不要难过。</b></p>
-    <div class="banner">
-      <div class="item">
-        <img :src="dataList[currentIndex]"
-             alt="logo" />
-      </div>
-      <div class="page"
-           v-if="this.dataList.length > 1">
-        <ul>
-          <li @click="gotoPage(prevIndex)">&lt;</li>
-          <li v-for="(item, index) in dataList"
-              :key="index"
-              @click="gotoPage(index)"
-              :class="{ current: currentIndex == index }">
-            {{ index + 1 }}
-          </li>
-          <li @click="gotoPage(nextIndex)">&gt;</li>
-        </ul>
-      </div>
+    <div>
+      <a href="https://github.com/zc2638/go-standard/">go标准库学习</a><br>
+      <a href="https://cloudconvert.com/flac-to-mp3">flac格式在线转mp3</a><br>
+      <a href="https://www.jianshu.com/p/0ae3e3bb3082">vue项目流程</a><br>
+      <a href="https://www.cnblogs.com/zsh-blogs/p/11497720.html">centos7 安装mysql</a>
+
     </div>
     <div class="center">
       <span>
